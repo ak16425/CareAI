@@ -1,0 +1,38 @@
+
+website_scrape_task:
+  description: >
+    Scrape the website for all the information related to the speciality and doctors
+  expected_output: >
+    Fully scraped websites with all the important information from the website.
+  agent: website_scraper
+
+recommend_specialist:
+  description: >
+    Analyze symptoms from patient's data : {patient_data} and recommend an appropriate specialist from the data scraped from the website.
+  expected_output: >
+    List of recommended specialists ranked by relevance.
+  agent: specialist_recommender
+  context: [website_scrape_task]
+
+schedule_appointment:
+  description: >
+    On the basis of patient's choice, Check doctor availability and schedule an appointment, 
+  expected_output: >
+    Confirmed appointment details including date, time, and doctor assigned. and then end the task and return final answer
+  agent: appointment_scheduler
+  context: [recommend_specialist]
+
+admit_patient:
+  description: >
+    Admit patient based on doctor's prescription and assign a bed. {dr_prescription}
+  expected_output: >
+    Provide with bed and ward number ans assign one Doctor also. Try to give in list manner.
+  agent: admission_officer
+
+process_billing:
+  description: >
+    "Generate invoice and process payment for hospital services for the patient : {patient_data}
+  expected_output: >
+    Shows the total bill amount at the end of task
+  agent: billing_officer
+
